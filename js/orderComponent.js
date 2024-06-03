@@ -25,11 +25,14 @@ class OrderComponent extends HTMLElement {
         if (item) {
             item.quantitat = quantitat;
             if (item.quantitat <= 0) {
-                this.orderItems = this.orderItems.filter(i => i.nom !== nom);
+                const index = this.orderItems.findIndex(i => i.nom === nom);
+                if (index !== -1) {
+                    this.orderItems.splice(index, 1);
+                }
             }
             this.render();
         }
-    }
+    }    
 
     calculateTotal() {
         return this.orderItems.reduce((total, item) => total + item.preu * item.quantitat, 0).toFixed(2);
